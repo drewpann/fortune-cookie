@@ -15,11 +15,45 @@
 # limitations under the License.
 #
 import webapp2
+import random
+
+def getRandomFortune():
+    possibleFortunes = [
+        "Ask your mother.",
+        "When in anger, sing the alphabet.",
+        "One day, you will be carbon neutral.",
+        "A man with brown eyes has a surprise for you.",
+        "Please play again.",
+        "Avoid taking unnecessary gambles.",
+        "How much deeper would the ocean be without sponges?",
+        "When you squeeze an orange, orange juice comes out - because that is what's inside.",
+        "You could come up with better fortunes than these.",
+        "Fortune Not Found: Abort, Retry, Ignore?",
+        "I cannot help you, I am but a cookie.",
+        "Pigeon poop burns the retina for 13 hours. You will discover this the hard way."
+    ]
+
+    return possibleFortunes[random.randint(0,int(len(possibleFortunes)-1))]
+
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Hello world!')
+        header = "<h1>Fortune Cookie</h1>"
+
+        fortune = "<strong>" + getRandomFortune() + "</strong>"
+        fortune_sentence = "Your fortune: " + fortune
+        fortune_para = "<p>" + fortune_sentence + "</p>"
+
+        luckyNumber = "<strong>" + str(random.randint(1, 100)) + "</strong>"
+        number_sentence = 'Your lucky number: ' + luckyNumber
+        number_para = '<p>' + number_sentence + '</p>'
+
+        anothercookie = "<a href='.'><button>Another?</button></a>"
+
+        content = header + fortune_para + number_para + anothercookie
+
+        self.response.write(content)
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    ('/', MainHandler),
 ], debug=True)
